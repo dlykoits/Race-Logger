@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Race Logger</string>
+
+    <string name="measurement_speed_metric">km/h</string>
+    <string name="measurement_speed_imp">mph</string>
+
+    <string name="speed_pattern">%1$.1f %2$s</string>
+    <string name="speed_label">Speed</string>
+
+    <string name="timer_pattern">%.2f s</string>
+    <string name="timer_label">Timer</string>
+
+    <string name="g_load_pattern">%.2f g</string>
+    <string name="g_load_label">G-Load</string>
+
+    <string name="result_max_speed">Max speed</string>
+    <string name="result_max_g_load">Max G-Load</string>
+    <string name="result_acc_0_30">Acceleration 0-30</string>
+    <string name="result_acc_0_60">Acceleration 0-60</string>
+    <string name="result_acc_0_100">Acceleration 0-100</string>
+
+</resources>
