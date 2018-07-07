@@ -1,7 +1,8 @@
-package com.gmail.dlykoits.racelogger
+package com.gmail.dlykoits.racelogger.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.gmail.dlykoits.racelogger.R
 import com.gmail.dlykoits.racelogger.ui.acceleration.AccelerationFragment
 
 class MainActivity : AppCompatActivity() {

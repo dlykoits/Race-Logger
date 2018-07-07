@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gmail.dlykoits.racelogger.R
+import com.gmail.dlykoits.racelogger.services.TrackingService
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AccelerationFragment : Fragment() {
 
@@ -20,6 +22,7 @@ class AccelerationFragment : Fragment() {
 
     private lateinit var paramsView: RecyclerView
     private lateinit var paramsAdapter: ParamsAdapter
+    private lateinit var actionButton: FloatingActionButton
     private lateinit var resultsView: RecyclerView
     private lateinit var resultsAdapter: ResultsAdapter
     private lateinit var viewModel: AccelerationViewModel
@@ -33,6 +36,7 @@ class AccelerationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         paramsView = view.findViewById(R.id.current_params)
         resultsView = view.findViewById(R.id.results_view)
+        actionButton = view.findViewById(R.id.action_button)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -56,5 +60,17 @@ class AccelerationFragment : Fragment() {
         viewModel.results.observe(this, Observer {
             resultsAdapter.update(it)
         })
+
+        viewModel.state.observe(this, Observer {
+            var imgRes = android.R.drawable.ic_media_play
+            when (it) {
+                TrackingService.State.NONE -> imgRes = android.R.drawable.ic_media_play
+                TrackingService.State.PREPARING -> android.R.drawable.ic_lock_lock
+                TrackingService.State.READY -> android.R.drawable.ic_media_pause
+            }
+            actionButton.setImageResource(imgRes)
+        })
+
+        actionButton.setOnClickListener { _ -> viewModel.actionPressed()}
     }
 }

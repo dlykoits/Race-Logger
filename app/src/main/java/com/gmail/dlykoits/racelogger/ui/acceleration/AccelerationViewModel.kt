@@ -3,17 +3,20 @@ package com.gmail.dlykoits.racelogger.ui.acceleration
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import java.util.ArrayList
+import com.gmail.dlykoits.racelogger.services.TrackingService
+import java.util.*
 
 class AccelerationViewModel : ViewModel() {
-
     private val _params = MutableLiveData<List<Pair<String, String>>>()
     private val _results = MutableLiveData<List<Pair<String, String>>>()
+    private val _state = MutableLiveData<TrackingService.State>();
 
     val params: LiveData<List<Pair<String, String>>>
         get() = _params
     val results: LiveData<List<Pair<String, String>>>
         get() = _results
+    val state: LiveData<TrackingService.State>
+        get() = _state
 
     init {
         val paramsList = ArrayList<Pair<String, String>>()
@@ -30,6 +33,15 @@ class AccelerationViewModel : ViewModel() {
         resultsList.add(Pair("Acceleration 0-60", "5.0"))
         resultsList.add(Pair("Acceleration 0-100", "8.0"))
         _results.value = resultsList
+
+        _state.value = TrackingService.State.NONE
     }
 
+    fun actionPressed() {
+        if(state == TrackingService.State.NONE) {
+            //TODO start tracking service
+        } else {
+            //TODO stop tracking service
+        }
+    }
 }
