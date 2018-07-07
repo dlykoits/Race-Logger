@@ -7,6 +7,10 @@ import timber.log.Timber.DebugTree
 
 
 class LoggerApplication : Application() {
+
+    lateinit var trackingRepository: TrackingRepository
+        private set
+
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
@@ -14,5 +18,7 @@ class LoggerApplication : Application() {
         } else {
             Timber.plant(CrashReportingTree())
         }
+
+        trackingRepository = TrackingRepository(this)
     }
 }

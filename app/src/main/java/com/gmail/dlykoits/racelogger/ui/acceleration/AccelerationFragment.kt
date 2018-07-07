@@ -65,8 +65,8 @@ class AccelerationFragment : Fragment() {
             var imgRes = android.R.drawable.ic_media_play
             when (it) {
                 TrackingService.State.NONE -> imgRes = android.R.drawable.ic_media_play
-                TrackingService.State.PREPARING -> android.R.drawable.ic_lock_lock
-                TrackingService.State.READY -> android.R.drawable.ic_media_pause
+                TrackingService.State.PREPARING -> imgRes = android.R.drawable.ic_lock_lock
+                TrackingService.State.READY -> imgRes = android.R.drawable.ic_media_pause
             }
             actionButton.setImageResource(imgRes)
         })

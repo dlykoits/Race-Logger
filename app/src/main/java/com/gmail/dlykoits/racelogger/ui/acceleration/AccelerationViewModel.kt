@@ -1,15 +1,22 @@
 package com.gmail.dlykoits.racelogger.ui.acceleration
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gmail.dlykoits.racelogger.LoggerApplication
+import com.gmail.dlykoits.racelogger.TrackingRepository
 import com.gmail.dlykoits.racelogger.services.TrackingService
 import java.util.*
 
-class AccelerationViewModel : ViewModel() {
+class AccelerationViewModel(application: Application) : AndroidViewModel(application), TrackingRepository.ParamsListener,
+        TrackingRepository.ResultListener, TrackingRepository.StateListener {
     private val _params = MutableLiveData<List<Pair<String, String>>>()
     private val _results = MutableLiveData<List<Pair<String, String>>>()
-    private val _state = MutableLiveData<TrackingService.State>();
+    private val _state = MutableLiveData<TrackingService.State>()
+
+    private val trackingRepository = (application as LoggerApplication).trackingRepository
 
     val params: LiveData<List<Pair<String, String>>>
         get() = _params
@@ -18,6 +25,8 @@ class AccelerationViewModel : ViewModel() {
     val state: LiveData<TrackingService.State>
         get() = _state
 
+
+
     init {
         val paramsList = ArrayList<Pair<String, String>>()
         paramsList.add(Pair("Distance", "402.1 m"))
@@ -25,6 +34,7 @@ class AccelerationViewModel : ViewModel() {
         paramsList.add(Pair("Speed", "101.1"))
         paramsList.add(Pair("G-Load", "0.81"))
         _params.value = paramsList
+        trackingRepository.paramsListener = this
 
         val resultsList = ArrayList<Pair<String, String>>()
         resultsList.add(Pair("Max speed", "105.1"))
@@ -33,15 +43,30 @@ class AccelerationViewModel : ViewModel() {
         resultsList.add(Pair("Acceleration 0-60", "5.0"))
         resultsList.add(Pair("Acceleration 0-100", "8.0"))
         _results.value = resultsList
+        trackingRepository.resultListener = this
 
         _state.value = TrackingService.State.NONE
+        trackingRepository.stateListener = this
     }
 
     fun actionPressed() {
-        if(state == TrackingService.State.NONE) {
-            //TODO start tracking service
+        _state.postValue(TrackingService.State.PREPARING)
+        if(_state.value == TrackingService.State.NONE) {
+            trackingRepository.start()
         } else {
-            //TODO stop tracking service
+            trackingRepository.stop()
         }
+    }
+
+    override fun onStateChanged(state: TrackingService.State) {
+        _state.postValue(state)
+    }
+
+    override fun onParamChanged() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onResultChanged() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
