@@ -1,6 +1,7 @@
 package com.gmail.dlykoits.racelogger.ui.acceleration
 
 import android.app.Application
+import android.os.Handler
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,6 +27,7 @@ class AccelerationViewModel(application: Application) : AndroidViewModel(applica
         get() = _state
 
 
+    val handler = Handler()
 
     init {
         val paramsList = ArrayList<Pair<String, String>>()
@@ -59,7 +61,9 @@ class AccelerationViewModel(application: Application) : AndroidViewModel(applica
     }
 
     override fun onStateChanged(state: TrackingService.State) {
-        _state.postValue(state)
+        handler.postDelayed(Runnable {
+            _state.postValue(state)
+        }, 500)
     }
 
     override fun onParamChanged() {
